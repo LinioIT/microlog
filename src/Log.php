@@ -267,11 +267,8 @@ class Log
      */
     private static function parseMessage($message, array $context): ParsedMessage
     {
-        $parsers = self::$parsers;
-        $parsers[] = self::getFallbackParser();
-
         /** @var Parser $parser */
-        foreach ($parsers as $parser) {
+        foreach (self::$parsers as $parser) {
             if (!$parser->supportsMessage($message)) {
                 continue;
             }
@@ -279,7 +276,7 @@ class Log
             return $parser->parse($message, $context);
         }
 
-        return new ParsedMessage((string) $message, $context);
+        return self::getFallbackParser()->parse($message, $context);
     }
 
     /**
