@@ -3,3 +3,4 @@
 /bin
 .php_cs.cache
 /composer.lock
+/coverage.xml
