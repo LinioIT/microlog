@@ -11,6 +11,8 @@ use Psr\Log\NullLogger;
 
 class Log
 {
+    const DEFAULT_CHANNEL = 'default';
+
     /**
      * @var LoggerInterface[]
      */
@@ -70,7 +72,7 @@ class Log
      *
      * @return null
      */
-    public static function emergency($message, string $channel = 'default', array $context = [])
+    public static function emergency($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -92,7 +94,7 @@ class Log
      *
      * @return null
      */
-    public static function alert($message, string $channel = 'default', array $context = [])
+    public static function alert($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -113,7 +115,7 @@ class Log
      *
      * @return null
      */
-    public static function critical($message, string $channel = 'default', array $context = [])
+    public static function critical($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -133,7 +135,7 @@ class Log
      *
      * @return null
      */
-    public static function error($message, string $channel = 'default', array $context = [])
+    public static function error($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -155,7 +157,7 @@ class Log
      *
      * @return null
      */
-    public static function warning($message, string $channel = 'default', array $context = [])
+    public static function warning($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -174,7 +176,7 @@ class Log
      *
      * @return null
      */
-    public static function notice($message, string $channel = 'default', array $context = [])
+    public static function notice($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -195,7 +197,7 @@ class Log
      *
      * @return null
      */
-    public static function info($message, string $channel = 'default', array $context = [])
+    public static function info($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -214,7 +216,7 @@ class Log
      *
      * @return null
      */
-    public static function debug($message, string $channel = 'default', array $context = [])
+    public static function debug($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -234,7 +236,7 @@ class Log
      *
      * @return null
      */
-    public static function log($message, $level, string $channel = 'default', array $context = [])
+    public static function log($message, $level, string $channel = self::DEFAULT_CHANNEL, array $context = [])
     {
         $parsedMessage = self::parseMessage($message, $context);
 

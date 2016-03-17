@@ -17,7 +17,7 @@ class LogTest extends PHPUnit_Framework_TestCase
     {
         $reflection = new ReflectionProperty(Log::class, 'loggers');
         $reflection->setAccessible(true);
-        $reflection->setValue(null, ['default' => new NullLogger()]);
+        $reflection->setValue(null, [Log::DEFAULT_CHANNEL => new NullLogger()]);
 
         $reflection = new ReflectionProperty(Log::class, 'parsers');
         $reflection->setAccessible(true);
@@ -40,7 +40,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message, [])->shouldBeCalled();
 
-        Log::setLoggerForChannel('default', $logger->reveal());
+        Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $logger->reveal());
 
         Log::{$method}($message);
     }
@@ -53,7 +53,7 @@ class LogTest extends PHPUnit_Framework_TestCase
     public function testItLogsWithAStringMessageWithAContextInTheDefaultChannel(string $method)
     {
         $message = 'this is a test';
-        $channel = 'default';
+        $channel = Log::DEFAULT_CHANNEL;
         $context = ['test' => 'test context'];
 
         $logger = $this->prophesize(LoggerInterface::class);
@@ -95,7 +95,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message->getMessage(), ['exception' => $message])->shouldBeCalled();
 
-        Log::setLoggerForChannel('default', $logger->reveal());
+        Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $logger->reveal());
         Log::addParser(new ThrowableParser());
 
         Log::{$method}($message);
@@ -113,7 +113,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message, ['test' => 'testing'])->shouldBeCalled();
 
-        Log::setLoggerForChannel('default', $logger->reveal());
+        Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $logger->reveal());
         Log::addGlobalContext('test', 'testing');
 
         Log::{$method}($message);
@@ -127,7 +127,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->log($level, $message, [])->shouldBeCalled();
 
-        Log::setLoggerForChannel('default', $logger->reveal());
+        Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $logger->reveal());
 
         Log::log($message, $level);
     }
@@ -141,12 +141,11 @@ class LogTest extends PHPUnit_Framework_TestCase
     {
         $message = new stdClass();
         $expectedMessage = 'Could parse message of type [stdClass] for logging.';
-        $level = 'someLevel';
 
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($expectedMessage, [])->shouldBeCalled();
 
-        Log::setLoggerForChannel('default', $logger->reveal());
+        Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $logger->reveal());
 
         Log::{$method}($message);
     }
