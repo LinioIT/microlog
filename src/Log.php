@@ -246,7 +246,11 @@ class Log
      */
     private static function getLoggerForChannel(string $channel): LoggerInterface
     {
-        return self::$loggers[$channel] ?? new NullLogger();
+        if (!isset(self::$loggers[$channel])) {
+            self::$loggers[$channel] = new NullLogger();
+        }
+
+        return self::$loggers[$channel];
     }
 
     /**
