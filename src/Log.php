@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
-use Error;
 use Linio\Component\Microlog\Parser\ParsedMessage;
 use Linio\Component\Microlog\Parser\Parser;
 use Psr\Log\LoggerInterface;
@@ -275,11 +274,11 @@ class Log
             return $parser->parse($message, $context);
         }
 
-        try {
-            return new ParsedMessage((string) $message, $context);
-        } catch (Error $error) {
-            return new ParsedMessage(sprintf('Could parse message of type [%s] for logging.', get_class($message)), $context);
+        if (is_object($message) && !method_exists($message, '__toString')) {
+            $message = sprintf('Could parse message of type [%s] for logging.', get_class($message));
         }
+
+        return new ParsedMessage((string) $message, $context);
     }
 
     /**
