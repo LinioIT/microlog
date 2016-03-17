@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
+use Linio\Component\Microlog\Parser\FallbackParser;
 use Linio\Component\Microlog\Parser\ParsedMessage;
 use Linio\Component\Microlog\Parser\Parser;
 use Psr\Log\LoggerInterface;
@@ -24,6 +25,11 @@ class Log
      * @var array
      */
     private static $globalContexts = [];
+
+    /**
+     * @var FallbackParser
+     */
+    private static $fallbackParser;
 
     /**
      * @param string $channel
@@ -261,17 +267,16 @@ class Log
      */
     private static function parseMessage($message, array $context): ParsedMessage
     {
+        $parsers = self::$parsers;
+        $parsers[] = self::getFallbackParser();
+
         /** @var Parser $parser */
-        foreach (self::$parsers as $parser) {
+        foreach ($parsers as $parser) {
             if (!$parser->supportsMessage($message)) {
                 continue;
             }
 
             return $parser->parse($message, $context);
-        }
-
-        if (is_object($message) && !method_exists($message, '__toString')) {
-            $message = sprintf('Could parse message of type [%s] for logging.', get_class($message));
         }
 
         return new ParsedMessage((string) $message, $context);
@@ -285,5 +290,17 @@ class Log
     private static function mergeGlobalContexts(array $contexts): array
     {
         return array_merge($contexts, self::$globalContexts);
+    }
+
+    /**
+     * @return FallbackParser
+     */
+    private static function getFallbackParser(): FallbackParser
+    {
+        if (!self::$fallbackParser) {
+            self::$fallbackParser = new FallbackParser();
+        }
+
+        return self::$fallbackParser;
     }
 }
