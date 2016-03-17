@@ -140,11 +140,11 @@ class LogTest extends PHPUnit_Framework_TestCase
     public function testItLogsWithAnObjectMessageWithNoEquivalentParser(string $method)
     {
         $message = new stdClass();
-        $expectedMessage = 'Could parse message of type [\stdClass] for logging.';
+        $expectedMessage = 'Could parse message of type [stdClass] for logging.';
         $level = 'someLevel';
 
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($level, $expectedMessage, [])->shouldBeCalled();
+        $logger->{$method}($expectedMessage, [])->shouldBeCalled();
 
         Log::setLoggerForChannel('default', $logger->reveal());
 
