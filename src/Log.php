@@ -26,14 +26,6 @@ class Log
     private static $globalContexts = [];
 
     /**
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct(LoggerInterface $logger = null)
-    {
-        self::$loggers['default'] = new NullLogger();
-    }
-
-    /**
      * @param string $channel
      * @param LoggerInterface $logger
      */
