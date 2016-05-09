@@ -67,12 +67,12 @@ class Log
      * System is unusable.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function emergency($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -89,12 +89,12 @@ class Log
      * trigger the SMS alerts and wake you up.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function alert($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -110,12 +110,12 @@ class Log
      * Example: Application component unavailable, unexpected exception.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function critical($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -130,12 +130,12 @@ class Log
      * be logged and monitored.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function error($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -152,12 +152,12 @@ class Log
      * that are not necessarily wrong.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function warning($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -171,12 +171,12 @@ class Log
      * Normal but significant events.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function notice($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -192,12 +192,12 @@ class Log
      * Example: User logs in, SQL logs.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function info($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -211,12 +211,12 @@ class Log
      * Detailed debug information.
      *
      * @param mixed $message
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function debug($message, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
@@ -231,12 +231,12 @@ class Log
      *
      * @param mixed $message
      * @param mixed $level
-     * @param string $channel
      * @param array $context
+     * @param string $channel
      *
      * @return null
      */
-    public static function log($message, $level, string $channel = self::DEFAULT_CHANNEL, array $context = [])
+    public static function log($message, $level, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         $parsedMessage = self::parseMessage($message, $context);
 
