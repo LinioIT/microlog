@@ -6,6 +6,7 @@ namespace Linio\Component\Microlog;
 use Linio\Component\Microlog\Parser\FallbackParser;
 use Linio\Component\Microlog\Parser\ParsedMessage;
 use Linio\Component\Microlog\Parser\Parser;
+use Linio\Component\Microlog\Parser\ThrowableParser;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -29,9 +30,9 @@ class Log
     private static $globalContexts = [];
 
     /**
-     * @var FallbackParser
+     * @var Parser[]
      */
-    private static $fallbackParser;
+    private static $defaultParsers = [];
 
     /**
      * @param LoggerInterface $logger
@@ -269,16 +270,16 @@ class Log
      */
     private static function parseMessage($message, array $context): ParsedMessage
     {
+        $parsers = array_merge(self::$parsers, self::getDefaultParsers());
+
         /** @var Parser $parser */
-        foreach (self::$parsers as $parser) {
+        foreach ($parsers as $parser) {
             if (!$parser->supportsMessage($message)) {
                 continue;
             }
 
             return $parser->parse($message, $context);
         }
-
-        return self::getFallbackParser()->parse($message, $context);
     }
 
     /**
@@ -292,14 +293,17 @@ class Log
     }
 
     /**
-     * @return FallbackParser
+     * @return Parser[]
      */
-    private static function getFallbackParser(): FallbackParser
+    private static function getDefaultParsers(): array
     {
-        if (!self::$fallbackParser) {
-            self::$fallbackParser = new FallbackParser();
+        if (empty(self::$defaultParsers)) {
+            self::$defaultParsers = [
+                new ThrowableParser(),
+                new FallbackParser(),
+            ];
         }
 
-        return self::$fallbackParser;
+        return self::$defaultParsers;
     }
 }

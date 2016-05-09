@@ -7,7 +7,7 @@ class FallbackParser implements Parser
 {
     const MESSAGE_WAS_EMPTY = 'Message was empty.';
 
-    const MESSAGE_OBJECT_NOT_IMPLEMENT_TO_STRING = 'Could not parse message of type [%s] for logging.';
+    const MESSAGE_OBJECT_NOT_IMPLEMENTED_TO_STRING = 'Could not parse message of type [%s] for logging.';
 
     /**
      * @param mixed $message
@@ -27,7 +27,7 @@ class FallbackParser implements Parser
 
         if (is_object($message) && !method_exists($message, '__toString')) {
             return new ParsedMessage(
-                sprintf(self::MESSAGE_OBJECT_NOT_IMPLEMENT_TO_STRING, get_class($message)),
+                sprintf(self::MESSAGE_OBJECT_NOT_IMPLEMENTED_TO_STRING, get_class($message)),
                 $context
             );
         }
