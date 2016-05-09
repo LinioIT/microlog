@@ -40,7 +40,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message, [])->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
         Log::{$method}($message);
     }
@@ -58,7 +58,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message, $context)->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
         Log::{$method}($message, $context);
     }
@@ -94,7 +94,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message->getMessage(), ['exception' => $message])->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
         Log::addParser(new ThrowableParser());
 
         Log::{$method}($message);
@@ -112,7 +112,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($message, ['test' => 'testing'])->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
         Log::addGlobalContext('test', 'testing');
 
         Log::{$method}($message);
@@ -126,7 +126,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->log($level, $message, [])->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
         Log::log($message, $level);
     }
@@ -144,7 +144,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($expectedMessage, [])->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
         Log::{$method}($message);
     }
@@ -161,7 +161,7 @@ class LogTest extends PHPUnit_Framework_TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->{$method}($exception->getMessage(), ['exception' => $exception])->shouldBeCalled();
 
-        Log::setLoggerForChannel($logger->reveal());
+        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
         Log::{$method}($exception);
     }

@@ -39,7 +39,7 @@ class Log
      * @param LoggerInterface $logger
      * @param string $channel
      */
-    public static function setLoggerForChannel(LoggerInterface $logger, string $channel = self::DEFAULT_CHANNEL)
+    public static function setLoggerForChannel(LoggerInterface $logger, string $channel)
     {
         self::$loggers[$channel] = $logger;
     }
