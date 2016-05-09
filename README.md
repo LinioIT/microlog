@@ -25,9 +25,9 @@ declare(strict_types=1);
 use Linio\Component\Microlog\Log;
 use Monolog\Handler\StreamHandler;
 
-// Register a logger for a channel
+// Register a logger for a channel (if no channel is specified, Log::DEFAULT_CHANNEL is used)
 $defaultLogger = new StreamHandler();
-Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $defaultLogger);
+Log::setLoggerForChannel($defaultLogger);
 
 // Log an emergency
 Log::emergency('This is a test emergency');
@@ -98,7 +98,7 @@ use Linio\Component\Microlog\Log;
 use Monolog\Handler\StreamHandler;
 
 $defaultLogger = new StreamHandler();
-Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $defaultLogger);
+Log::setLoggerForChannel($defaultLogger);
 
 Log::addGlobalContext('requestId', uniqid());
 ```
