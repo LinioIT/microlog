@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
@@ -52,7 +53,7 @@ class Log
     }
 
     /**
-     * Adds a context to all log methods
+     * Adds a context to all log methods.
      *
      * This is useful for things like a unique id per request.
      *
@@ -70,8 +71,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -92,8 +91,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -113,8 +110,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -133,8 +128,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -155,8 +148,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -174,8 +165,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -195,8 +184,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -214,8 +201,6 @@ class Log
      * @param mixed $message
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -234,8 +219,6 @@ class Log
      * @param mixed $level
      * @param array $context
      * @param string $channel
-     *
-     * @return null
      */
     public static function log($message, $level, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
