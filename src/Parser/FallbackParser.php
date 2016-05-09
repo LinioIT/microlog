@@ -5,6 +5,10 @@ namespace Linio\Component\Microlog\Parser;
 
 class FallbackParser implements Parser
 {
+    const MESSAGE_WAS_EMPTY = 'Message was empty.';
+
+    const MESSAGE_OBJECT_NOT_IMPLEMENT_TO_STRING = 'Could not parse message of type [%s] for logging.';
+
     /**
      * @param mixed $message
      * @param array $context
@@ -13,9 +17,17 @@ class FallbackParser implements Parser
      */
     public function parse($message, array $context = []): ParsedMessage
     {
+        if ($message === null) {
+            return new ParsedMessage(self::MESSAGE_WAS_EMPTY, $context);
+        }
+
+        if (is_array($message)) {
+            return new ParsedMessage(print_r($message, true), $context);
+        }
+
         if (is_object($message) && !method_exists($message, '__toString')) {
             return new ParsedMessage(
-                sprintf('Could parse message of type [%s] for logging.', get_class($message)),
+                sprintf(self::MESSAGE_OBJECT_NOT_IMPLEMENT_TO_STRING, get_class($message)),
                 $context
             );
         }
