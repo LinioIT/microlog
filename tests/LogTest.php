@@ -149,6 +149,24 @@ class LogTest extends PHPUnit_Framework_TestCase
         Log::{$method}($message);
     }
 
+    /**
+     * @dataProvider logMethodProvider
+     *
+     * @param string $method
+     */
+    public function testItLogsWithAThrowableMessage(string $method)
+    {
+        $exception = new Exception();
+
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->{$method}($exception->getMessage(), ['exception' => $exception])->shouldBeCalled();
+
+        Log::setLoggerForChannel($logger->reveal());
+        Log::addParser(new ThrowableParser());
+
+        Log::{$method}($exception);
+    }
+
     public function logMethodProvider(): array
     {
         return [
