@@ -81,7 +81,7 @@ use Linio\Component\Microlog\Log;
 use Monolog\Handler\StreamHandler;
 
 $defaultLogger = new StreamHandler();
-Log::setLoggerForChannel(Log::DEFAULT_CHANNEL, $defaultLogger);
+Log::setLoggerForChannel($defaultLogger, 'emergency');
 
 Log::emergency('This is an emergency in the emergency channel', 'emergency');
 ```

@@ -34,10 +34,10 @@ class Log
     private static $fallbackParser;
 
     /**
-     * @param string $channel
      * @param LoggerInterface $logger
+     * @param string $channel
      */
-    public static function setLoggerForChannel(string $channel, LoggerInterface $logger)
+    public static function setLoggerForChannel(LoggerInterface $logger, string $channel = self::DEFAULT_CHANNEL)
     {
         self::$loggers[$channel] = $logger;
     }
