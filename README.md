@@ -1,8 +1,8 @@
 # Linio Microlog
-Microlog - Static logger
+Microlog - Static wrapper around PSR-3 loggers
 
 ## Purpose
-Logging is a part of all applications. Having to inject in a logging service requires a dependency that has nothing to do with the code that you are writing. Because of this, microlog was created.
+Logging is a part of all applications. Having to inject in a logging service requires a dependency that has nothing to do with the code that you are writing. Microlog was created to remove this requirement.
 
 Microlog allows you create log entries in different contexts from any part of your application. Microlog is built with never throwing exceptions in mind. An exception caused by logging causes the normal flow of your application to fail, and logging shouldn't do that.
 
@@ -10,7 +10,7 @@ While seldaek/monolog is recommend, any PSR-3 compatible library will work.
 
 ## Installation
 
-To install microlog, install Composer and issue the following command:
+To install microlog:
 
 ```
 $ composer require linio/microlog
