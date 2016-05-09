@@ -6,7 +6,7 @@ Logging is a part of all applications. Having to inject in a logging service req
 
 Microlog allows you create log entries in different contexts from any part of your application. Microlog is built with never throwing exceptions in mind. An exception caused by logging causes the normal flow of your application to fail, and logging shouldn't do that.
 
-While seldaek/monolog is recommend, any PSR-3 compatible library will work.
+While [https://github.com/Seldaek/monolog](seldaek/monolog) is recommend, any PSR-3 compatible library will work.
 
 ## Installation
 
