@@ -6,13 +6,14 @@ namespace Linio\Component\Microlog;
 
 use Exception;
 use Linio\Component\Microlog\Parser\ThrowableParser;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use ReflectionProperty;
 use stdClass;
 
-class LogTest extends PHPUnit_Framework_TestCase
+class LogTest extends TestCase
 {
     protected function tearDown()
     {
