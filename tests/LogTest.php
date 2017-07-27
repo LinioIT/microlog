@@ -7,7 +7,6 @@ namespace Linio\Component\Microlog;
 use Exception;
 use Linio\Component\Microlog\Parser\ThrowableParser;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use ReflectionProperty;

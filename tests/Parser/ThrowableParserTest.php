@@ -7,7 +7,6 @@ namespace Parser;
 use Exception;
 use Linio\Component\Microlog\Parser\ThrowableParser;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_TestCase;
 
 class ThrowableParserTest extends TestCase
 {

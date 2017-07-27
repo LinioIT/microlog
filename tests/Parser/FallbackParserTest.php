@@ -7,7 +7,6 @@ namespace Parser;
 use Exception;
 use Linio\Component\Microlog\Parser\FallbackParser;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_TestCase;
 use stdClass;
 
 class FallbackParserTest extends TestCase
