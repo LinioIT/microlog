@@ -10,18 +10,20 @@
         "psr/log": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.0",
-        "fabpot/php-cs-fixer": "1.12.x-dev"
+        "phpunit/phpunit": "^5.0",
+        "friendsofphp/php-cs-fixer": "^2.4"
     },
     "suggest": {
         "monolog/monolog": "The recommended PSR-3 compatible logger"
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "autoload": {
         "psr-4": {
             "Linio\\Component\\Microlog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Linio\\Component\\Microlog\\": "tests/"
         }
     }
 }
