@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
-use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
@@ -18,24 +17,9 @@ class Log
      */
     private static $loggers = [];
 
-    /**
-     * @var array
-     */
-    private static $globalContexts = [];
-
     public static function setLoggerForChannel(LoggerInterface $logger, string $channel)
     {
         self::$loggers[$channel] = $logger;
-    }
-
-    /**
-     * Adds a context to all log methods.
-     *
-     * This is useful for things like a unique id per request.
-     */
-    public static function addGlobalContext(string $context, string $value)
-    {
-        self::$globalContexts[$context] = $value;
     }
 
     /**
