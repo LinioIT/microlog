@@ -76,10 +76,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->emergency(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->emergency($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -96,10 +93,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->alert(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->alert($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -115,10 +109,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->critical(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->critical($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -133,10 +124,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->error(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->error($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -153,10 +141,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->warning(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->warning($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -170,10 +155,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->notice(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->notice($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -189,10 +171,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->info(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->info($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -206,10 +185,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->debug(
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->debug($parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -224,11 +200,7 @@ class Log
     {
         $parsedMessage = self::parseMessage($message, $context);
 
-        self::getLoggerForChannel($channel)->log(
-            $level,
-            $parsedMessage->getMessage(),
-            self::mergeGlobalContexts($parsedMessage->getContext())
-        );
+        self::getLoggerForChannel($channel)->log($level, $parsedMessage->getMessage(), $parsedMessage->getContext());
     }
 
     /**
@@ -263,16 +235,6 @@ class Log
 
             return $parser->parse($message, $context);
         }
-    }
-
-    /**
-     * @param array $contexts
-     *
-     * @return array
-     */
-    private static function mergeGlobalContexts(array $contexts): array
-    {
-        return array_merge($contexts, self::$globalContexts);
     }
 
     /**
