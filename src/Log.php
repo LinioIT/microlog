@@ -6,6 +6,7 @@ namespace Linio\Component\Microlog;
 
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 
 class Log
@@ -42,7 +43,7 @@ class Log
      */
     public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::EMERGENCY, $message, $context, $channel);
+        self::log(LogLevel::EMERGENCY, $message, $context, $channel);
     }
 
     /**
@@ -53,7 +54,7 @@ class Log
      */
     public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::ALERT, $message, $context, $channel);
+        self::log(LogLevel::ALERT, $message, $context, $channel);
     }
 
     /**
@@ -63,7 +64,7 @@ class Log
      */
     public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::CRITICAL, $message, $context, $channel);
+        self::log(LogLevel::CRITICAL, $message, $context, $channel);
     }
 
     /**
@@ -72,7 +73,7 @@ class Log
      */
     public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::ERROR, $message, $context, $channel);
+        self::log(LogLevel::ERROR, $message, $context, $channel);
     }
 
     /**
@@ -83,7 +84,7 @@ class Log
      */
     public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::WARNING, $message, $context, $channel);
+        self::log(LogLevel::WARNING, $message, $context, $channel);
     }
 
     /**
@@ -91,7 +92,7 @@ class Log
      */
     public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::NOTICE, $message, $context, $channel);
+        self::log(LogLevel::NOTICE, $message, $context, $channel);
     }
 
     /**
@@ -101,7 +102,7 @@ class Log
      */
     public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::INFO, $message, $context, $channel);
+        self::log(LogLevel::INFO, $message, $context, $channel);
     }
 
     /**
@@ -109,7 +110,7 @@ class Log
      */
     public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        self::log(Logger::DEBUG, $message, $context, $channel);
+        self::log(LogLevel::DEBUG, $message, $context, $channel);
     }
 
     /**
