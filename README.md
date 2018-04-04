@@ -55,10 +55,7 @@ Log::debug('This is test debug information');
 Log::log('emergency', 'This is a test entry at an arbitrary level of emergency');
 ```
 
-## Advanced Usage
-Microlog supports several cool features such as global contexts, and multiple channels.
-
-### Multiple Channels
+## Multiple Channels
 Channels allow you to configure different handlers for different types of messages.
 
 By default, all logs will be created in the default logging channel `Log::DEFAULT_CHANNEL` (`default`). If you wish to specify a different channel when logging, the second parameter to all non-arbitrary level log methods.
@@ -71,27 +68,10 @@ declare(strict_types=1);
 use Linio\Component\Microlog\Log;
 use Monolog\Handler\StreamHandler;
 
-$defaultLogger = new StreamHandler('error.log');
+$defaultLogger = new NullLogger();
 Log::setLoggerForChannel($defaultLogger, 'emergency');
 
 Log::emergency('This is an emergency in the emergency channel', 'emergency');
-```
-
-### Global Contexts
-Global contexts allow you to add certain bits of information to all log entries. This is extremely useful for logging things such as a `requestId`, `customerId`, etc.
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use Linio\Component\Microlog\Log;
-use Monolog\Handler\StreamHandler;
-
-$defaultLogger = new StreamHandler();
-Log::setLoggerForChannel($defaultLogger);
-
-Log::addGlobalContext('requestId', uniqid());
 ```
 
 ## Contributing
