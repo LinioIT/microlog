@@ -20,10 +20,6 @@ class LogTest extends TestCase
         $reflection->setAccessible(true);
         $reflection->setValue(null, [Log::DEFAULT_CHANNEL => new NullLogger()]);
 
-        $reflection = new ReflectionProperty(Log::class, 'parsers');
-        $reflection->setAccessible(true);
-        $reflection->setValue(null, []);
-
         $reflection = new ReflectionProperty(Log::class, 'globalContexts');
         $reflection->setAccessible(true);
         $reflection->setValue(null, []);
@@ -96,7 +92,6 @@ class LogTest extends TestCase
         $logger->{$method}($message->getMessage(), ['exception' => $message])->shouldBeCalled();
 
         Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-        Log::addParser(new ThrowableParser());
 
         Log::{$method}($message);
     }
@@ -130,24 +125,6 @@ class LogTest extends TestCase
         Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
         Log::log($message, $level);
-    }
-
-    /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
-     */
-    public function testItLogsWithAMessageWithNoEquivalentParser(string $method)
-    {
-        $message = new stdClass();
-        $expectedMessage = 'Could not parse message of type [stdClass] for logging.';
-
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($expectedMessage, [])->shouldBeCalled();
-
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-
-        Log::{$method}($message);
     }
 
     /**

@@ -56,14 +56,7 @@ Log::log('emergency', 'This is a test entry at an arbitrary level of emergency')
 ```
 
 ## Advanced Usage
-Microlog supports several cool features such as global contexts, multiple channels and parsers.
-
-### Parsers
-A parser is a class that can modify the message and context for a given entry. One such parser is included by default. It parses `\Throwable`s to automatically extract the message and add the throwable in the context. Monolog has built in exception handling when an exception is the value of the `exception` key of the context.
-
-One of the benefits to these parsers is that you can send anything as the message, not just strings and classes that implement `__toString`. Each parser is executed in the order it is added until one returns true in the `supports($message)` method. If it returns true, it is asked to parse the message.
-
-By default, microlog will use a fallback parser to make sure that a message is always logged no matter what is passed in as the message.
+Microlog supports several cool features such as global contexts, and multiple channels.
 
 ### Multiple Channels
 Channels allow you to configure different handlers for different types of messages.
@@ -78,7 +71,7 @@ declare(strict_types=1);
 use Linio\Component\Microlog\Log;
 use Monolog\Handler\StreamHandler;
 
-$defaultLogger = new StreamHandler();
+$defaultLogger = new StreamHandler('error.log');
 Log::setLoggerForChannel($defaultLogger, 'emergency');
 
 Log::emergency('This is an emergency in the emergency channel', 'emergency');

@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
-use Linio\Component\Microlog\Parser\FallbackParser;
-use Linio\Component\Microlog\Parser\ParsedMessage;
-use Linio\Component\Microlog\Parser\Parser;
-use Linio\Component\Microlog\Parser\ThrowableParser;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -21,19 +18,9 @@ class Log
     private static $loggers = [];
 
     /**
-     * @var Parser[]
-     */
-    private static $parsers = [];
-
-    /**
      * @var array
      */
     private static $globalContexts = [];
-
-    /**
-     * @var Parser[]
-     */
-    private static $defaultParsers = [];
 
     /**
      * @param LoggerInterface $logger
@@ -42,14 +29,6 @@ class Log
     public static function setLoggerForChannel(LoggerInterface $logger, string $channel)
     {
         self::$loggers[$channel] = $logger;
-    }
-
-    /**
-     * @param Parser $parser
-     */
-    public static function addParser(Parser $parser)
-    {
-        self::$parsers[] = $parser;
     }
 
     /**
@@ -74,9 +53,7 @@ class Log
      */
     public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->emergency($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::EMERGENCY, $message, $context, $channel);
     }
 
     /**
@@ -91,9 +68,7 @@ class Log
      */
     public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->alert($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::ALERT, $message, $context, $channel);
     }
 
     /**
@@ -107,9 +82,7 @@ class Log
      */
     public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->critical($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::CRITICAL, $message, $context, $channel);
     }
 
     /**
@@ -122,9 +95,7 @@ class Log
      */
     public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->error($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::ERROR, $message, $context, $channel);
     }
 
     /**
@@ -139,9 +110,7 @@ class Log
      */
     public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->warning($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::WARNING, $message, $context, $channel);
     }
 
     /**
@@ -153,9 +122,7 @@ class Log
      */
     public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->notice($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::NOTICE, $message, $context, $channel);
     }
 
     /**
@@ -169,9 +136,7 @@ class Log
      */
     public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->info($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::INFO, $message, $context, $channel);
     }
 
     /**
@@ -183,9 +148,7 @@ class Log
      */
     public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->debug($parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::log(Logger::DEBUG, $message, $context, $channel);
     }
 
     /**
@@ -198,9 +161,7 @@ class Log
      */
     public static function log($message, $level, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
-        $parsedMessage = self::parseMessage($message, $context);
-
-        self::getLoggerForChannel($channel)->log($level, $parsedMessage->getMessage(), $parsedMessage->getContext());
+        self::getLoggerForChannel($channel)->log($level, $message, $context);
     }
 
     /**
@@ -215,40 +176,5 @@ class Log
         }
 
         return self::$loggers[$channel];
-    }
-
-    /**
-     * @param mixed $message
-     * @param array $context
-     *
-     * @return ParsedMessage
-     */
-    private static function parseMessage($message, array $context): ParsedMessage
-    {
-        $parsers = array_merge(self::$parsers, self::getDefaultParsers());
-
-        /** @var Parser $parser */
-        foreach ($parsers as $parser) {
-            if (!$parser->supportsMessage($message)) {
-                continue;
-            }
-
-            return $parser->parse($message, $context);
-        }
-    }
-
-    /**
-     * @return Parser[]
-     */
-    private static function getDefaultParsers(): array
-    {
-        if (empty(self::$defaultParsers)) {
-            self::$defaultParsers = [
-                new ThrowableParser(),
-                new FallbackParser(),
-            ];
-        }
-
-        return self::$defaultParsers;
     }
 }
