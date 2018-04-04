@@ -22,10 +22,6 @@ class Log
      */
     private static $globalContexts = [];
 
-    /**
-     * @param LoggerInterface $logger
-     * @param string $channel
-     */
     public static function setLoggerForChannel(LoggerInterface $logger, string $channel)
     {
         self::$loggers[$channel] = $logger;
@@ -35,9 +31,6 @@ class Log
      * Adds a context to all log methods.
      *
      * This is useful for things like a unique id per request.
-     *
-     * @param string $context
-     * @param string $value
      */
     public static function addGlobalContext(string $context, string $value)
     {
@@ -46,10 +39,6 @@ class Log
 
     /**
      * System is unusable.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -61,10 +50,6 @@ class Log
      *
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -75,10 +60,6 @@ class Log
      * Critical conditions.
      *
      * Example: Application component unavailable, unexpected exception.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -88,10 +69,6 @@ class Log
     /**
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -103,10 +80,6 @@ class Log
      *
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -115,10 +88,6 @@ class Log
 
     /**
      * Normal but significant events.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -129,10 +98,6 @@ class Log
      * Interesting events.
      *
      * Example: User logs in, SQL logs.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -141,10 +106,6 @@ class Log
 
     /**
      * Detailed debug information.
-     *
-     * @param mixed $message
-     * @param array $context
-     * @param string $channel
      */
     public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
@@ -153,22 +114,12 @@ class Log
 
     /**
      * Logs with an arbitrary level.
-     *
-     * @param mixed $message
-     * @param mixed $level
-     * @param array $context
-     * @param string $channel
      */
     public static function log($message, $level, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         self::getLoggerForChannel($channel)->log($level, $message, $context);
     }
 
-    /**
-     * @param string $channel
-     *
-     * @return LoggerInterface
-     */
     private static function getLoggerForChannel(string $channel): LoggerInterface
     {
         if (!isset(self::$loggers[$channel])) {
