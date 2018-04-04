@@ -11,7 +11,7 @@ use ReflectionProperty;
 
 class LogTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new ReflectionProperty(Log::class, 'loggers');
         $reflection->setAccessible(true);
@@ -21,7 +21,7 @@ class LogTest extends TestCase
     /**
      * @dataProvider logLevelProvider
      */
-    public function testItLogsMessages(string $level)
+    public function testItLogsMessages(string $level): void
     {
         $message = 'this is a test';
         $context = ['test' => 'test context'];
@@ -37,7 +37,7 @@ class LogTest extends TestCase
     /**
      * @dataProvider logLevelProvider
      */
-    public function testItLogsMessagesInANonDefaultChannel(string $level)
+    public function testItLogsMessagesInANonDefaultChannel(string $level): void
     {
         $message = 'this is a test';
         $channel = 'testChannel';
@@ -51,7 +51,7 @@ class LogTest extends TestCase
         Log::{$level}($message, $context, $channel);
     }
 
-    public function testItLogsWithAnArbitraryLevel()
+    public function testItLogsWithAnArbitraryLevel(): void
     {
         $message = 'this is a test';
         $level = 'emergency';

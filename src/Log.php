@@ -17,7 +17,7 @@ class Log
      */
     private static $loggers = [];
 
-    public static function setLoggerForChannel(LoggerInterface $logger, string $channel)
+    public static function setLoggerForChannel(LoggerInterface $logger, string $channel): void
     {
         self::$loggers[$channel] = $logger;
     }
@@ -25,7 +25,7 @@ class Log
     /**
      * System is unusable.
      */
-    public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function emergency($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::EMERGENCY, $message, $context, $channel);
     }
@@ -36,7 +36,7 @@ class Log
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      */
-    public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function alert($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::ALERT, $message, $context, $channel);
     }
@@ -46,7 +46,7 @@ class Log
      *
      * Example: Application component unavailable, unexpected exception.
      */
-    public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function critical($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::CRITICAL, $message, $context, $channel);
     }
@@ -55,7 +55,7 @@ class Log
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      */
-    public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function error($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::ERROR, $message, $context, $channel);
     }
@@ -66,7 +66,7 @@ class Log
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      */
-    public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function warning($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::WARNING, $message, $context, $channel);
     }
@@ -74,7 +74,7 @@ class Log
     /**
      * Normal but significant events.
      */
-    public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function notice($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::NOTICE, $message, $context, $channel);
     }
@@ -84,7 +84,7 @@ class Log
      *
      * Example: User logs in, SQL logs.
      */
-    public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function info($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::INFO, $message, $context, $channel);
     }
@@ -92,7 +92,7 @@ class Log
     /**
      * Detailed debug information.
      */
-    public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function debug($message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::log(LogLevel::DEBUG, $message, $context, $channel);
     }
@@ -100,7 +100,7 @@ class Log
     /**
      * Logs with an arbitrary level.
      */
-    public static function log($level, $message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function log($level, $message, array $context = [], string $channel = self::DEFAULT_CHANNEL): void
     {
         self::getLoggerForChannel($channel)->log($level, $message, $context);
     }
