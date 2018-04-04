@@ -116,7 +116,7 @@ class Log
     /**
      * Logs with an arbitrary level.
      */
-    public static function log($message, $level, array $context = [], string $channel = self::DEFAULT_CHANNEL)
+    public static function log($level, $message, array $context = [], string $channel = self::DEFAULT_CHANNEL)
     {
         self::getLoggerForChannel($channel)->log($level, $message, $context);
     }
