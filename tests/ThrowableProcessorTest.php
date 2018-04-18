@@ -10,7 +10,7 @@ use Throwable;
 
 class ThrowableProcessorTest extends TestCase
 {
-    public function testItDoesNotProcessMessagesThatAreNotThrowables()
+    public function testItDoesNotProcessMessagesThatAreNotThrowables(): void
     {
         $record = [
             'message' => 'notAThrowable',
@@ -23,7 +23,7 @@ class ThrowableProcessorTest extends TestCase
         $this->assertSame($record, $actual);
     }
 
-    public function testItProcessesMessagesThatAreThrowables()
+    public function testItProcessesMessagesThatAreThrowables(): void
     {
         $record = [
             'message' => new Exception('Test Message'),
