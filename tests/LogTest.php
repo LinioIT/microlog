@@ -4,170 +4,67 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
-use Exception;
-use Linio\Component\Microlog\Parser\ThrowableParser;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use ReflectionProperty;
-use stdClass;
 
 class LogTest extends TestCase
 {
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new ReflectionProperty(Log::class, 'loggers');
         $reflection->setAccessible(true);
         $reflection->setValue(null, [Log::DEFAULT_CHANNEL => new NullLogger()]);
-
-        $reflection = new ReflectionProperty(Log::class, 'parsers');
-        $reflection->setAccessible(true);
-        $reflection->setValue(null, []);
-
-        $reflection = new ReflectionProperty(Log::class, 'globalContexts');
-        $reflection->setAccessible(true);
-        $reflection->setValue(null, []);
     }
 
     /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
+     * @dataProvider logLevelProvider
      */
-    public function testItLogsWithAStringMessageWithNoContextInTheDefaultChannel(string $method)
-    {
-        $message = 'this is a test';
-
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($message, [])->shouldBeCalled();
-
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-
-        Log::{$method}($message);
-    }
-
-    /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
-     */
-    public function testItLogsWithAStringMessageWithAContextInTheDefaultChannel(string $method)
+    public function testItLogsMessages(string $level): void
     {
         $message = 'this is a test';
         $context = ['test' => 'test context'];
 
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($message, $context)->shouldBeCalled();
+        $logger->log($level, $message, $context)->shouldBeCalled();
 
         Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
-        Log::{$method}($message, $context);
+        Log::{$level}($message, $context);
     }
 
     /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
+     * @dataProvider logLevelProvider
      */
-    public function testItLogsWithAStringMessageWithAContextInANonDefaultChannel(string $method)
+    public function testItLogsMessagesInANonDefaultChannel(string $level): void
     {
         $message = 'this is a test';
         $channel = 'testChannel';
         $context = ['test' => 'test context'];
 
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($message, $context)->shouldBeCalled();
+        $logger->log($level, $message, $context)->shouldBeCalled();
 
         Log::setLoggerForChannel($logger->reveal(), $channel);
 
-        Log::{$method}($message, $context, $channel);
+        Log::{$level}($message, $context, $channel);
     }
 
-    /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
-     */
-    public function testItLogsWithAnExceptionMessage(string $method)
-    {
-        $message = new Exception('test');
-
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($message->getMessage(), ['exception' => $message])->shouldBeCalled();
-
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-        Log::addParser(new ThrowableParser());
-
-        Log::{$method}($message);
-    }
-
-    /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
-     */
-    public function testItLogsWithAGlobalContext(string $method)
+    public function testItLogsWithAnArbitraryLevel(): void
     {
         $message = 'this is a test';
-
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($message, ['test' => 'testing'])->shouldBeCalled();
-
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-        Log::addGlobalContext('test', 'testing');
-
-        Log::{$method}($message);
-    }
-
-    public function testItLogsWithAnArbitraryLevel()
-    {
-        $message = 'this is a test';
-        $level = 'someLevel';
+        $level = 'emergency';
 
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->log($level, $message, [])->shouldBeCalled();
 
         Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
 
-        Log::log($message, $level);
+        Log::log($level, $message);
     }
 
-    /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
-     */
-    public function testItLogsWithAMessageWithNoEquivalentParser(string $method)
-    {
-        $message = new stdClass();
-        $expectedMessage = 'Could not parse message of type [stdClass] for logging.';
-
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($expectedMessage, [])->shouldBeCalled();
-
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-
-        Log::{$method}($message);
-    }
-
-    /**
-     * @dataProvider logMethodProvider
-     *
-     * @param string $method
-     */
-    public function testItLogsWithAThrowableMessage(string $method)
-    {
-        $exception = new Exception();
-
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->{$method}($exception->getMessage(), ['exception' => $exception])->shouldBeCalled();
-
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
-
-        Log::{$method}($exception);
-    }
-
-    public function logMethodProvider(): array
+    public function logLevelProvider(): array
     {
         return [
             ['debug'],
