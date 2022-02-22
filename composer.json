@@ -6,13 +6,13 @@
     "homepage": "https://github.com/linioit/microlog",
     "license": "BSD-3-Clause",
     "require": {
-        "php": ">=7.1",
-        "psr/log": "^1.0",
-        "monolog/monolog": "^1.23"
+        "php": "^7.4 || ^8.0",
+        "psr/log": "^1.0.1 || ^2.0 || ^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0 || ^7.0",
-        "friendsofphp/php-cs-fixer": "^2.11"
+        "phpunit/phpunit": "^8.5",
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "phpstan/phpstan": "^0.12"
     },
     "autoload": {
         "psr-4": {
@@ -23,5 +23,16 @@
         "psr-4": {
             "Linio\\Component\\Microlog\\": "tests/"
         }
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix --verbose --show-progress=dots",
+        "lint:check": "php-cs-fixer fix --dry-run --verbose --show-progress=dots",
+        "phpunit": "phpunit",
+        "phpstan": "phpstan analyze",
+        "test": [
+            "@lint:check",
+            "@phpunit",
+            "@phpstan"
+        ]
     }
 }
