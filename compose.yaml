@@ -1,0 +1,13 @@
+services:
+  php:
+    build: .
+    image: microlog-php:8.5.12
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ${NETSKOPE_CA_BUNDLE:-/Users/lhbarrientos/netskope/netskope-cert-bundle.pem}:/run/certs/netskope-ca-bundle.pem:ro
+    environment:
+      COMPOSER_CACHE_DIR: /tmp/composer-cache
+      COMPOSER_CAFILE: /run/certs/netskope-ca-bundle.pem
+      CURL_CA_BUNDLE: /run/certs/netskope-ca-bundle.pem
+      SSL_CERT_FILE: /run/certs/netskope-ca-bundle.pem

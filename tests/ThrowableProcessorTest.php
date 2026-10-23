@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
-use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Throwable;
 
+#[CoversClass(ThrowableProcessor::class)]
 class ThrowableProcessorTest extends TestCase
 {
     public function testItDoesNotProcessMessagesThatAreNotThrowables(): void
@@ -26,7 +26,7 @@ class ThrowableProcessorTest extends TestCase
     public function testItProcessesMessagesThatAreThrowables(): void
     {
         $record = [
-            'message' => new Exception('Test Message'),
+            'message' => new \Exception('Test Message'),
             'context' => [],
         ];
 
@@ -34,6 +34,6 @@ class ThrowableProcessorTest extends TestCase
         $actual = $processor($record);
 
         $this->assertSame('Test Message', $actual['message']);
-        $this->assertInstanceOf(Throwable::class, $actual['context']['exception']);
+        $this->assertInstanceOf(\Throwable::class, $actual['context']['exception']);
     }
 }

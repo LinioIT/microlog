@@ -4,49 +4,46 @@ declare(strict_types=1);
 
 namespace Linio\Component\Microlog;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use ReflectionProperty;
 
+#[CoversClass(Log::class)]
 class LogTest extends TestCase
 {
     protected function tearDown(): void
     {
-        $reflection = new ReflectionProperty(Log::class, 'loggers');
-        $reflection->setAccessible(true);
+        $reflection = new \ReflectionProperty(Log::class, 'loggers');
         $reflection->setValue(null, [Log::DEFAULT_CHANNEL => new NullLogger()]);
     }
 
-    /**
-     * @dataProvider logLevelProvider
-     */
+    #[DataProvider('logLevelProvider')]
     public function testItLogsMessages(string $level): void
     {
         $message = 'this is a test';
         $context = ['test' => 'test context'];
 
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->log($level, $message, $context)->shouldBeCalled();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->with($level, $message, $context);
 
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
+        Log::setLoggerForChannel($logger, Log::DEFAULT_CHANNEL);
 
         Log::{$level}($message, $context);
     }
 
-    /**
-     * @dataProvider logLevelProvider
-     */
+    #[DataProvider('logLevelProvider')]
     public function testItLogsMessagesInANonDefaultChannel(string $level): void
     {
         $message = 'this is a test';
         $channel = 'testChannel';
         $context = ['test' => 'test context'];
 
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->log($level, $message, $context)->shouldBeCalled();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->with($level, $message, $context);
 
-        Log::setLoggerForChannel($logger->reveal(), $channel);
+        Log::setLoggerForChannel($logger, $channel);
 
         Log::{$level}($message, $context, $channel);
     }
@@ -56,15 +53,15 @@ class LogTest extends TestCase
         $message = 'this is a test';
         $level = 'emergency';
 
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->log($level, $message, [])->shouldBeCalled();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->with($level, $message, []);
 
-        Log::setLoggerForChannel($logger->reveal(), Log::DEFAULT_CHANNEL);
+        Log::setLoggerForChannel($logger, Log::DEFAULT_CHANNEL);
 
         Log::log($level, $message);
     }
 
-    public function logLevelProvider(): array
+    public static function logLevelProvider(): array
     {
         return [
             ['debug'],
