@@ -77,3 +77,22 @@ Log::emergency('This is an emergency in the emergency channel', 'emergency');
 ## Contributing
 Feel free to send your contributions as a PR. Make sure you update/write new tests to support your contribution.
 Please follow PSR-2.
+
+### Development with Docker
+
+The development container uses PHP 8.5.12, the latest patched version listed in the PHP security advisory. Docker and Docker Compose are required. The provided Netskope CA bundle is mounted read-only for Composer's TLS connections; set `NETSKOPE_CA_BUNDLE` if it is stored elsewhere.
+
+```sh
+docker compose build
+docker compose run --rm php php --version
+docker compose run --rm php composer install
+docker compose run --rm php composer test
+```
+
+Run other Composer commands in the same container, for example:
+
+```sh
+docker compose run --rm php composer require vendor/package
+```
+
+The package requires PHP 8.2.35, 8.3.36, 8.4.27, or 8.5.12 (or a later patch release in those branches), so Composer will not install it on an official PHP release that predates the security fixes.
